@@ -1,0 +1,85 @@
+Configurações OSPF
+R1
+config t
+interface fastEthernet 0/1
+ip address 56.20.20.1 255.255.255.252
+no shutdown
+exit
+router ospf 1
+network 56.20.0.0 0.0.255.255 area 0.0.0.0
+no shutdown
+interface loopback 0
+ip address 56.20.254.254 255.255.255.255
+no shutdown
+
+R2
+config t
+interface fastEthernet 0/0
+ip address 56.20.20.2 255.255.255.252
+no shutdown
+exit
+interface fastEthernet 1/0
+ip address 44.56.44.1 255.255.255.252
+no shutdown
+exit
+interface fastEthernet 0/1
+ip address 56.22.10.1 255.255.255.0
+no shutdown
+exit
+interface fastEthernet 0/1.50
+encapsulation dot1Q 50
+ip address 56.22.50.1 255.255.255.0
+no shutdown
+interface fastEthernet 0/1.100
+encapsulation dot1Q 100
+ip address 56.22.100.1 255.255.255.0
+no shutdown
+interface fastEthernet 0/1/150
+encapsulation dot1Q 150
+ip address 56.22.150.1 255.255.255.0
+no shutdown
+exit
+router ospf 1
+network 56.20.0.0 0.0.255.255 area 0.0.0.0
+network 44.56.0.0 0.0.255.255 area 0.0.0.0
+network 56.22.0.0 0.0.255.255 area 0.0.0.0
+exit
+interface loopback 0
+ip address 56.20.253.254 255.255.255.255
+no shutdown
+exit
+interface loopback 1
+ip address 44.56.254.254 255.255.255.255
+no shutdown
+exit
+interface loopback 2
+ip address 56.22.254.254 255.255.255.255
+no shutdown
+exit
+exit
+copy running-config startup-config
+
+//DHCP  nas VLANS
+ip dhcp pool vlan10
+network 56.22.10.0 255.255.255.0
+default-router 56.22.10.1
+ip dhcp pool vlan50
+network 56.22.50.0 255.255.255.0
+default-router 56.22.50.1
+exit
+ip dhcp pool vlan100
+network 56.22.100.0 255.255.255.0
+default-router 56.22.100.1
+exit
+ip dhcp pool vlan150
+network 56.22.150.0 255.255.255.0
+default-router 56.22.150.1
+
+
+//Backup das Configs
+https://youtu.be/YjnZM8IIfrY
+https://youtu.be/8QH_ya9dy-M
+
+//Router Microtik
+instalei winbox na máquina cliente
+consegui acesso ao router através do endereço MAC
